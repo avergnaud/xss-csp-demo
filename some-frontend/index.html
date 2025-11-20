@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XSS and CSP Demo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>XSS and CSP Demo</h1>
+        <p class="subtitle">Demonstrating reflected XSS vulnerability and Content Security Policy protection</p>
+
+        <div class="warning">
+            <strong>⚠️ Educational Purpose Only</strong>
+            This demo intentionally contains a security vulnerability to demonstrate how CSP headers can protect against XSS attacks.
+        </div>
+
+        <form id="xssForm">
+            <div class="input-group">
+                <label for="userInput">Enter some text (try: &lt;img src=x onerror=alert('XSS')&gt;):</label>
+                <input type="text" id="userInput" name="userInput" placeholder="Type here..." autocomplete="off">
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+
+        <div class="output">
+            <div class="output-label">Output:</div>
+            <div id="output"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
