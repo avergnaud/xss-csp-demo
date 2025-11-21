@@ -78,13 +78,6 @@ python server.py --help
 
 ## How It Works
 
-### The Vulnerability
-
-1. **User Input:** User enters malicious HTML/JavaScript
-2. **Bypass Security:** The Angular component uses `bypassSecurityTrustHtml()` which tells Angular to trust the HTML
-3. **Render:** The `[innerHTML]` binding renders the untrusted HTML directly into the DOM
-4. **Execute:** Without CSP, the browser executes any `<script>` tags
-
 ### The Protection (CSP)
 
 When CSP header `script-src 'self'` is set:
@@ -94,55 +87,11 @@ When CSP header `script-src 'self'` is set:
 
 ## Educational Notes
 
-### Why This Is Vulnerable
-
-- **Never use `bypassSecurityTrustHtml()`** with untrusted user input
-- Angular's built-in sanitizer would normally strip `<script>` tags
-- Bypassing this protection creates an XSS vulnerability
-
-### Defense Layers
-
-1. **Primary Defense:** Don't bypass Angular's sanitizer
-2. **Secondary Defense (CSP):** Even if code is vulnerable, CSP headers can prevent exploitation
-3. **Best Practice:** Use Angular's safe bindings like `{{ }}` for text content
-
 ### CSP Policies Explained
 
 - `script-src 'self'`: Only allow scripts from same origin
 - `script-src 'none'`: Block all scripts (very restrictive)
 - `script-src 'unsafe-inline'`: Allow inline scripts (defeats CSP protection against XSS)
-
-## Testing Different Payloads
-
-Try these different XSS payloads to see what works with/without CSP:
-
-```html
-<!-- Classic script tag -->
-<script>alert('XSS')</script>
-
-<!-- Image with onerror (also blocked by CSP) -->
-<img src=x onerror=alert('XSS')>
-
-<!-- SVG with onload (also blocked by CSP) -->
-<svg onload=alert('XSS')>
-
-<!-- Safe HTML (works in both modes) -->
-<b>Bold text</b>
-<span style="color: red;">Red text</span>
-```
-
-## Clean Up
-
-To stop the server, press `Ctrl+C` in the terminal.
-
-## Security Warning
-
-This project is for **educational purposes only**. It demonstrates:
-- How NOT to handle user input
-- Why Angular's security features exist
-- How CSP provides defense-in-depth
-
-**Never deploy code that uses `bypassSecurityTrustHtml()` with user input in production!**
 
 ## License
 
